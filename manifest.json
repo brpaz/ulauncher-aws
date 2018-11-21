@@ -1,0 +1,20 @@
+{
+  "manifest_version": "2",
+  "api_version": "1",
+  "name": "AWS Launcher",
+  "description": "Launcher for AWS services",
+  "developer_name": "Bruno Paz",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "kw",
+      "type": "keyword",
+      "name": "AWS Launcher",
+      "description": "Quickly access to your AWS Resources",
+      "default_value": "aws"
+    }
+  ]
+}
