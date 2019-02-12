@@ -3,7 +3,7 @@
   "api_version": "1",
   "name": "AWS Launcher",
   "description": "Launcher for AWS services",
-  "developer_name": "Bruno Paz",
+  "developer_name": "Rufus Shrestha",
   "icon": "images/icon.png",
   "options": {
     "query_debounce": 0.1

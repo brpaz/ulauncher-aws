@@ -2,6 +2,8 @@
 
 > Launcher for AWS services
 
+Credit (Original work) - Forked from https://github.com/brpaz/ulauncher-aws
+
 ## Demo
 
 ![demo](demo.gif)
@@ -15,12 +17,12 @@
 
 Open ulauncher preferences window -> extensions -> add extension and paste the following url:
 
-`https://github.com/brpaz/ulauncher-aws`
+`https://github.com/rufusshrestha/ulauncher-aws.git`
 
 ## Development
 
 ```
-git clone https://github.com/brpaz/ulauncher-aws
+git clone https://github.com/rufusshrestha/ulauncher-aws.git
 make link
 ```
 
@@ -38,4 +40,5 @@ To see your changes, stop ulauncher and run it from the command line with: `ulau
 
 ## License
 
-MIT &copy; [Bruno Paz]
+- MIT &copy; [Bruno Paz] `https://github.com/brpaz/ulauncher-aws`
+- MIT &copy; [Rufus Shrestha]
