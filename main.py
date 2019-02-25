@@ -1,5 +1,3 @@
-"""Ulauncher extension main  class"""
-
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent
@@ -7,78 +5,188 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.OpenUrlAction import OpenUrlAction
 
-
-class AWSLauncherExtension(Extension):
-    """ Main extension class """
-
+class GnomeSessionExtension(Extension):
     def __init__(self):
-        """ init method """
-        super(AWSLauncherExtension, self).__init__()
+        super(GnomeSessionExtension, self).__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
 
-
 class KeywordQueryEventListener(EventListener):
-    """ Handles Keyboard input """
-
     def on_event(self, event, extension):
-        """ Handles the event """
+        items = []
+        options = ['ec2', 'ecs', 'rds', 's3', 'elasticbeanstalk', 'elasticache', 'cloudwatch', 'cloudformation', 'route53', 'vpc', 'iam', 'ecr', 'eks', 'lambda', 'dynamodb', 'managementconsole', 'pricingcalculator', 'compare']
+        my_list = event.query.split(" ")
+        if len(my_list) == 1:
+            items.append(get_ec2_item())
+            items.append(get_ecs_item())
+            items.append(get_rds_item())
+            items.append(get_s3_item())
+            items.append(get_elasticbeanstalk_item())
+            items.append(get_elasticache_item())
+            items.append(get_cloudwatch_item())
+            items.append(get_cloudformation_item())
+            items.append(get_route53_item())
+            items.append(get_vpc_item())
+            items.append(get_iam_item())
+            items.append(get_ecr_item())
+            items.append(get_eks_item())
+            items.append(get_lambda_item())
+            items.append(get_dynamodb_item())
+            items.append(get_managementconsole_item())
+            items.append(get_pricingcalculator())
+            items.append(get_compare())
+            return RenderResultListAction(items)
+        else:
+            my_query = my_list[1]
+            included = []
+            for option in options:
+                if my_query in option:
+                    if option in ['managementconsole', 'management', 'console'] and 'managementconsole' not in included:
+                        items.append(get_managementconsole_item())
+                        included.append('managementconsole')
+                    elif option in ['pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator'] and 'pricingcalculator' not in included:
+                        items.append(get_pricingcalculator())
+                        included.append('pricingcalculator')
+                    elif option in ['compare', 'instancecomparison', 'comparison'] and 'compare' not in included:
+                        items.append(get_compare())
+                        included.append('compare')
+                    elif option in ['ec2']:
+                        items.append(get_ec2_item())
+                    elif option in ['ecs']:
+                        items.append(get_ecs_item())
+                    elif option in ['rds']:
+                        items.append(get_rds_item())
+                    elif option in ['s3']:
+                        items.append(get_s3_item())
+                    elif option in ['elasticbeanstalk']:
+                        items.append(get_elasticbeanstalk_item())
+                    elif option in ['elasticache']:
+                        items.append(get_elasticache_item())
+                    elif option in ['cloudwatch']:
+                        items.append(get_cloudwatch_item())
+                    elif option in ['cloudformation']:
+                        items.append(get_cloudformation_item())
+                    elif option in ['route53']:
+                        items.append(get_route53_item())
+                    elif option in ['vpc']:
+                        items.append(get_vpc_item())
+                    elif option in ['iam']:
+                        items.append(get_iam_item())
+                    elif option in ['ecr']:
+                        items.append(get_ecr_item())
+                    elif option in ['eks']:
+                        items.append(get_eks_item())
+                    elif option in ['lambda']:
+                        items.append(get_lambda_item())
+                    elif option in ['dynamodb']:
+                        items.append(get_dynamodb_item())
+            return RenderResultListAction(items)
 
-        items = [
-            ExtensionResultItem(icon='images/icon.png',
-                                name='EC2',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/ec2")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='ECS',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/ecs")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='RDS',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/RDS")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='S3',
-                                on_enter=OpenUrlAction("https://s3.console.aws.amazon.com/s3")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Elasticbeanstalk',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/elasticbeanstalk")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='ElastiCache',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/elasticache")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='CloudWatch',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudwatch")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Cloudformation',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudformation")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Route53',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/route53")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='VPC',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/vpc")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='IAM',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/iam")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='ECR',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/ecr")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='EKS',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/eks")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Lambda',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/lambda")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Dynamo DB',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com/dynamodb")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Management Console',
-                                on_enter=OpenUrlAction("https://console.aws.amazon.com")),
-            ExtensionResultItem(icon='images/icon.png',
-                                name='Pricing calculator',
-                                on_enter=OpenUrlAction("https://calculator.s3.amazonaws.com/index.html")),
-        ]
+def get_ec2_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS EC2',
+                               description='AWS Elastic Compute Cloud',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/ec2"))
+def get_ecs_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS ECS',
+                               description='EC2 Container Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/ecs"))
 
-        return RenderResultListAction(items)
+def get_rds_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS RDS',
+                               description='AWS Relational Database Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/RDS"))
 
+def get_s3_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS S3',
+                               description='AWS Simple Storage Service',
+                               on_enter=OpenUrlAction("https://s3.console.aws.amazon.com/s3"))
+
+def get_elasticbeanstalk_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS ElasticBeanstalk',
+                               description='AWS ElasticBeanstalk Application Environment',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/elasticbeanstalk"))
+
+def get_elasticache_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS ElastiCache',
+                               description='AWS ElastiCache (Redis, Memcached, etc.)',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/elasticache"))
+
+def get_cloudwatch_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS CloudWatch',
+                               description='AWS CloudWatch Metrics and Monitoring',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudwatch"))
+
+def get_cloudformation_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS CloudFormation',
+                               description='AWS Cloud Formation Cosole',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudformation"))
+
+def get_route53_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Route 53',
+                               description='AWS Route 53 Domain & DNS Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/route53"))
+
+def get_vpc_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS VPC',
+                               description='AWS Virtual Private Cloud',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/vpc"))
+
+def get_iam_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS IAM',
+                               description='AWS Identity & Access Management',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/iam"))
+
+def get_ecr_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS ECR',
+                               description='AWS Elastic Container Registry',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/ecr"))
+
+def get_eks_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS EKS',
+                               description='AWS Kubernetes Management Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/eks"))
+
+def get_lambda_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Lambda',
+                               description='AWS Lambda Serverless Computing',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/lambda"))
+
+def get_dynamodb_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS DynamoDB',
+                               description='AWS DynamoDB NoSQL Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/dynamodb"))
+
+def get_managementconsole_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Management Console',
+                               description='Manage all your AWS infrastructure',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/console"))
+
+def get_pricingcalculator():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Pricing Calculator',
+                               description='AWS Pricing Calculator',
+                               on_enter=OpenUrlAction("https://calculator.s3.amazonaws.com/index.html"))
+
+def get_compare():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Instance Comparision',
+                               description='EC2Instances.info Easy Amazon EC2 Instance Comparison',
+                               on_enter=OpenUrlAction("https://www.ec2instances.info"))
 
 if __name__ == '__main__':
-    AWSLauncherExtension().run()
+    GnomeSessionExtension().run()
