@@ -96,7 +96,7 @@ def get_rds_item():
     return ExtensionResultItem(icon='images/icon.png',
                                name='AWS RDS',
                                description='AWS Relational Database Service',
-                               on_enter=OpenUrlAction("https://console.aws.amazon.com/RDS"))
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/rds"))
 
 def get_s3_item():
     return ExtensionResultItem(icon='images/icon.png',
