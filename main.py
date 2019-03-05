@@ -13,7 +13,7 @@ class GnomeSessionExtension(Extension):
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         items = []
-        options = ['ec2', 'ecs', 'rds', 's3', 'elasticbeanstalk', 'elasticache', 'cloudwatch', 'cloudformation', 'route53', 'vpc', 'iam', 'ecr', 'eks', 'lambda', 'dynamodb', 'managementconsole', 'pricingcalculator', 'compare']
+        options = ['ec2', 'ecs', 'rds', 's3', 'elasticbeanstalk', 'elasticache', 'cloudwatch', 'cloudformation', 'route53', 'vpc', 'iam', 'ecr', 'eks', 'lambda', 'dynamodb', 'managementconsole', 'support', 'billing', 'pricingcalculator', 'compare']
         my_list = event.query.split(" ")
         if len(my_list) == 1:
             items.append(get_ec2_item())
@@ -32,6 +32,8 @@ class KeywordQueryEventListener(EventListener):
             items.append(get_lambda_item())
             items.append(get_dynamodb_item())
             items.append(get_managementconsole_item())
+            items.append(get_support_item())
+            items.append(get_billing_item())
             items.append(get_pricingcalculator())
             items.append(get_compare())
             return RenderResultListAction(items)
@@ -43,6 +45,12 @@ class KeywordQueryEventListener(EventListener):
                     if option in ['managementconsole', 'management', 'console'] and 'managementconsole' not in included:
                         items.append(get_managementconsole_item())
                         included.append('managementconsole')
+                    elif option in ['support', 'ticket', 'helpdesk', 'help'] and 'support' not in included:
+                        items.append(get_support_item())
+                        included.append('support')
+                    elif option in ['billing', 'budget', 'costs'] and 'billing' not in included:
+                        items.append(get_billing_item())
+                        included.append('billing')
                     elif option in ['pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator'] and 'pricingcalculator' not in included:
                         items.append(get_pricingcalculator())
                         included.append('pricingcalculator')
@@ -175,6 +183,18 @@ def get_managementconsole_item():
                                name='AWS Management Console',
                                description='Manage all your AWS infrastructure',
                                on_enter=OpenUrlAction("https://console.aws.amazon.com/console"))
+
+def get_support_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Support Console',
+                               description='Access AWS customer and business support ticketing system',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/support"))
+
+def get_billing_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Billing Dashboard',
+                               description='AWS Billing & Cost Management Center. Manage Billing, Budgets, Cost Explorer and Reports ',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/billing"))
 
 def get_pricingcalculator():
     return ExtensionResultItem(icon='images/icon.png',
