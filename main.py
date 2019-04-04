@@ -19,7 +19,7 @@ class KeywordQueryEventListener(EventListener):
                         'support', 'ticket', 'helpdesk', 'help',
                         'billing', 'budget', 'costs',
                         'pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator',
-                        'compare', 'instancecomparison', 'comparison'
+                        'compare', 'instancecomparison', 'comparison',
                         'route53','dns'
                   ]
         my_list = event.query.split(" ")
