@@ -11,7 +11,7 @@ Credit (Original work) - Forked from https://github.com/brpaz/ulauncher-aws
 ## Requirements
 
 - [ulauncher](https://ulauncher.io/)
-- Python >= 2.7
+- Python >= 3 (Python 2.7 will use the python2 git branch)
 
 ## Install
 
