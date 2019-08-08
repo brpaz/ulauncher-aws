@@ -9,7 +9,7 @@
 ## Requirements
 
 - [ulauncher](https://ulauncher.io/)
-- Python >= 2.7
+- Python >= 3 (Python 2.7 will use the python2 git branch)
 
 ## Install
 
@@ -39,3 +39,9 @@ To see your changes, stop ulauncher and run it from the command line with: `ulau
 ## License
 
 MIT &copy; [Bruno Paz]
+
+## Contributors
+
+[Bruno Paz](https://github.com/brpaz)
+[rufusshrestha](https://github.com/rufusshrestha)
+[Rabindra Joshi](https://github.com/therj)
