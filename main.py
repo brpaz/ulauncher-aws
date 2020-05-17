@@ -20,7 +20,7 @@ class KeywordQueryEventListener(EventListener):
                         'billing', 'budget', 'costs',
                         'pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator',
                         'compare', 'instancecomparison', 'comparison',
-                        'route53','dns'
+                        'route53', 'dns', 'sqs', 'sns', 'ses'
                   ]
         my_list = event.query.split(" ")
         if len(my_list) == 1:
@@ -44,6 +44,9 @@ class KeywordQueryEventListener(EventListener):
             items.append(get_pricingcalculator())
             items.append(get_compare())
             items.append(get_route53_item())
+            items.append(get_sqs_item())
+            items.append(get_sns_item())
+            items.append(get_ses_item())
             return RenderResultListAction(items)
         else:
             my_query = my_list[1]
@@ -96,6 +99,12 @@ class KeywordQueryEventListener(EventListener):
                     elif option in ['route53', 'dns'] and 'route53' not in included:
                         items.append(get_route53_item())
                         included.append('route53')
+                    elif option in ['sqs']:
+                        items.append(get_sqs_item())                        
+                    elif option in ['sns']:
+                        items.append(get_sns_item())                        
+                    elif option in ['ses']:
+                        items.append(get_ses_item())                                                                        
                         
             return RenderResultListAction(items)
 
@@ -218,5 +227,23 @@ def get_route53_item():
                                description='AWS Route 53 Domain & DNS Service',
                                on_enter=OpenUrlAction("https://console.aws.amazon.com/route53"))
 
+def get_sqs_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Simple Queue Service',
+                               description='AWS SQS Managed Message Queues',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/sqs"))
+
+def get_sns_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Simple Notification Service',
+                               description='AWS SNS managed message topics for Pub/Sub',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/sns/v3"))
+
+def get_ses_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Simple Email Service',
+                               description='AWS SES Email Sending and Receiving Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/ses"))
+                        
 if __name__ == '__main__':
     GnomeSessionExtension().run()
