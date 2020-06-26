@@ -9,7 +9,7 @@ format:
 	@autopep8 --in-place --recursive --aggressive .
 
 link:
-	@ln -s ${EXT_DIR} ~/.cache/ulauncher_cache/extensions/${EXT_NAME}
+	@ln -s ${EXT_DIR} ~/.local/share/ulauncher/extensions/${EXT_NAME}
 
 unlink:
-	@rm -r ~/.cache/ulauncher_cache/extensions/${EXT_NAME}
+	@rm -r ~/.local/share/ulauncher/extensions/${EXT_NAME}
