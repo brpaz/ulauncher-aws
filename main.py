@@ -20,7 +20,7 @@ class KeywordQueryEventListener(EventListener):
                         'billing', 'budget', 'costs',
                         'pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator',
                         'compare', 'instancecomparison', 'comparison',
-                        'route53', 'dns', 'sqs', 'sns', 'ses'
+                        'route53', 'dns', 'sqs', 'sns', 'ses', 'elasticsearch', 'kms', 'cloudfront'
                   ]
         my_list = event.query.split(" ")
         if len(my_list) == 1:
@@ -47,6 +47,9 @@ class KeywordQueryEventListener(EventListener):
             items.append(get_sqs_item())
             items.append(get_sns_item())
             items.append(get_ses_item())
+            items.append(get_cloudfront_item())
+            items.append(get_kms_item())
+            items.append(get_elasticsearch_item())
             return RenderResultListAction(items)
         else:
             my_query = my_list[1]
@@ -100,14 +103,34 @@ class KeywordQueryEventListener(EventListener):
                         items.append(get_route53_item())
                         included.append('route53')
                     elif option in ['sqs']:
-                        items.append(get_sqs_item())                        
+                        items.append(get_sqs_item())
                     elif option in ['sns']:
-                        items.append(get_sns_item())                        
+                        items.append(get_sns_item())
                     elif option in ['ses']:
-                        items.append(get_ses_item())                                                                        
-                        
+                        items.append(get_ses_item())
+                    elif option in ['cloudfront']:
+                        items.append(get_cloudfront_item())
+                    elif option in ['kms']:
+                        items.append(get_kms_item())
+                    elif option in ['elasticsearch']:
+                        items.append(get_elasticsearch_item())
             return RenderResultListAction(items)
 
+def get_elasticsearch_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Elasticsearch',
+                               description='AWS Elasticsearch Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/es"))
+def get_kms_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS KMS',
+                               description='AWS Key Management Service',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/kms"))
+def get_cloudfront_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Cloudfront',
+                               description='AWS CloudFront Manager',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudfront"))
 def get_ec2_item():
     return ExtensionResultItem(icon='images/icon.png',
                                name='AWS EC2',
@@ -244,6 +267,6 @@ def get_ses_item():
                                name='AWS Simple Email Service',
                                description='AWS SES Email Sending and Receiving Service',
                                on_enter=OpenUrlAction("https://console.aws.amazon.com/ses"))
-                        
+
 if __name__ == '__main__':
     GnomeSessionExtension().run()
