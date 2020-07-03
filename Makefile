@@ -13,3 +13,6 @@ link:
 
 unlink:
 	@rm -r ~/.local/share/ulauncher/extensions/${EXT_NAME}
+
+dev: ## Runs ulauncher on development mode
+	ulauncher --no-extensions --dev -v

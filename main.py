@@ -20,7 +20,7 @@ class KeywordQueryEventListener(EventListener):
                         'billing', 'budget', 'costs',
                         'pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator',
                         'compare', 'instancecomparison', 'comparison',
-                        'route53', 'dns', 'sqs', 'sns', 'ses', 'elasticsearch', 'kms', 'cloudfront'
+                        'route53', 'dns', 'sqs', 'sns', 'ses', 'elasticsearch', 'kms', 'cloudfront', 'api', 'gateway'
                   ]
         my_list = event.query.split(" ")
         if len(my_list) == 1:
@@ -50,6 +50,7 @@ class KeywordQueryEventListener(EventListener):
             items.append(get_cloudfront_item())
             items.append(get_kms_item())
             items.append(get_elasticsearch_item())
+            items.append(get_api_gateway_item())
             return RenderResultListAction(items)
         else:
             my_query = my_list[1]
@@ -114,7 +115,15 @@ class KeywordQueryEventListener(EventListener):
                         items.append(get_kms_item())
                     elif option in ['elasticsearch']:
                         items.append(get_elasticsearch_item())
+                    elif option in ['api', 'gateway']:
+                        items.append(get_api_gateway_item())
             return RenderResultListAction(items)
+
+def get_api_gateway_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS API Gateway',
+                               description='AWS API Gateway',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/apigateway"))
 
 def get_elasticsearch_item():
     return ExtensionResultItem(icon='images/icon.png',
