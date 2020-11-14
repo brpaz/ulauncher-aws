@@ -22,6 +22,7 @@ Open ulauncher preferences window -> extensions -> add extension and paste the f
 ```
 git clone https://github.com/brpaz/ulauncher-aws
 make link
+make dev
 ```
 
 The `make link` command will symlink the cloned repo into the appropriate location on the ulauncher extensions folder.
