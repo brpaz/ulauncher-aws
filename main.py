@@ -20,7 +20,8 @@ class KeywordQueryEventListener(EventListener):
                         'billing', 'budget', 'costs',
                         'pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator',
                         'compare', 'instancecomparison', 'comparison',
-                        'route53', 'dns', 'sqs', 'sns', 'ses', 'elasticsearch', 'kms', 'cloudfront', 'api', 'gateway'
+                        'route53', 'dns', 'sqs', 'sns', 'ses', 'elasticsearch', 'kms', 'cloudfront', 'api', 'gateway',
+                        'cloudtrail', 'secret'
                   ]
         my_list = event.query.split(" ")
         if len(my_list) == 1:
@@ -51,6 +52,8 @@ class KeywordQueryEventListener(EventListener):
             items.append(get_kms_item())
             items.append(get_elasticsearch_item())
             items.append(get_api_gateway_item())
+            items.append(get_secret_item())
+            items.append(get_cloudtrail_item())
             return RenderResultListAction(items)
         else:
             my_query = my_list[1]
@@ -117,6 +120,10 @@ class KeywordQueryEventListener(EventListener):
                         items.append(get_elasticsearch_item())
                     elif option in ['api', 'gateway']:
                         items.append(get_api_gateway_item())
+                    elif option in ['secret']:
+                        items.append(get_secret_item())
+                    elif option in ['cloudtrail']:
+                        items.append(get_cloudtrail_item())
             return RenderResultListAction(items)
 
 def get_api_gateway_item():
@@ -276,6 +283,18 @@ def get_ses_item():
                                name='AWS Simple Email Service',
                                description='AWS SES Email Sending and Receiving Service',
                                on_enter=OpenUrlAction("https://console.aws.amazon.com/ses"))
+
+def get_secret_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Secrets Manager',
+                               description='AWS Secrets Manager',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/secretsmanager"))
+
+def get_cloudtrail_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS CloudTrail',
+                               description='AWS CloudTrail',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudtrail"))
 
 if __name__ == '__main__':
     GnomeSessionExtension().run()
