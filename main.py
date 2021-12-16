@@ -21,7 +21,7 @@ class KeywordQueryEventListener(EventListener):
                         'pricingcalculator', 'pricing', 'price', 'prices', 'calculate', 'calculator',
                         'compare', 'instancecomparison', 'comparison',
                         'route53', 'dns', 'sqs', 'sns', 'ses', 'elasticsearch', 'kms', 'cloudfront', 'api', 'gateway',
-                        'cloudtrail', 'secret'
+                        'cloudtrail', 'secret', 'systemsmanager'
                   ]
         my_list = event.query.split(" ")
         if len(my_list) == 1:
@@ -54,6 +54,7 @@ class KeywordQueryEventListener(EventListener):
             items.append(get_api_gateway_item())
             items.append(get_secret_item())
             items.append(get_cloudtrail_item())
+            items.append(get_systemsmanager_item())
             return RenderResultListAction(items)
         else:
             my_query = my_list[1]
@@ -124,6 +125,8 @@ class KeywordQueryEventListener(EventListener):
                         items.append(get_secret_item())
                     elif option in ['cloudtrail']:
                         items.append(get_cloudtrail_item())
+                    elif option in ['systemsmanager']:
+                        items.append(get_systemsmanager_item())
             return RenderResultListAction(items)
 
 def get_api_gateway_item():
@@ -295,6 +298,12 @@ def get_cloudtrail_item():
                                name='AWS CloudTrail',
                                description='AWS CloudTrail',
                                on_enter=OpenUrlAction("https://console.aws.amazon.com/cloudtrail"))
+
+def get_systemsmanager_item():
+    return ExtensionResultItem(icon='images/icon.png',
+                               name='AWS Systems Manager',
+                               description='AWS Systems Manager',
+                               on_enter=OpenUrlAction("https://console.aws.amazon.com/systems-manager"))
 
 if __name__ == '__main__':
     GnomeSessionExtension().run()
