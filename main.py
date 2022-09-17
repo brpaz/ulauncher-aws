@@ -31,12 +31,11 @@ class KeywordQueryEventListener(EventListener):
         # keyword that starts with the query string (but not the first keyword). Other matches have a keyword that
         # contains (but does not start with) the query string.
         #
-        # For example, if the query string was "d", the following matches would be returned:
-        # best: "AWS DynamoDB" (the first keyword, "dynamodb", starts with "d")
-        # good: "AWS Route 53" (the keyword (not first), "dns", starts with "d")
-        # other: "AWS Billing Dashboard", "AWS CloudFormation", "AWS CloudTrail", "AWS CloudWatch", "AWS Cloudfront",
-        #      "AWS Lambda", "AWS RDS", "AWS Support Console" (each service has a keyword that contains, but doesn't
-        #      start with, the string: "d")
+        # For example, if the query string was "d", the following matches would be included:
+        # best: "AWS DynamoDB" (the first keyword, "dynamodb", starts with "d"), and others ...
+        # good: "AWS Route 53" (the keyword (not first), "dns", starts with "d"), and others ...
+        # other: "AWS Billing Dashboard", "AWS CloudFormation", and others ... (each service has a keyword that
+        #        contains, but doesn't start with, the string: "d")
 
         best_matches = []
         good_matches = []
