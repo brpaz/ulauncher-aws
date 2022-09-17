@@ -15,6 +15,8 @@ class GnomeSessionExtension(Extension):
         super(GnomeSessionExtension, self).__init__()
         self.max_results = DEFAULT_MAX_RESULTS
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
+        self.subscribe(PreferencesEvent, PreferencesEventListener())
+        self.subscribe(PreferencesUpdateEvent, PreferencesUpdateEventListener())
 
 
 class KeywordQueryEventListener(EventListener):
@@ -68,10 +70,21 @@ class KeywordQueryEventListener(EventListener):
                 on_enter=OpenUrlAction(s["url"]),
                 icon=s["icon"]
             )
-            for s in (best_matches + good_matches + other_matches)
+            for s in (best_matches + good_matches + other_matches)[:extension.max_results]
         ]
 
         return RenderResultListAction(items)
+
+
+class PreferencesEventListener(EventListener):
+    def on_event(self, event, extension):
+        extension.max_results = int(event.preferences["max_results"])
+
+
+class PreferencesUpdateEventListener(EventListener):
+    def on_event(self, event, extension):
+        if event.id == "max_results":
+            extension.max_results = int(event.new_value)
 
 
 if __name__ == "__main__":
